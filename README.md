@@ -1,24 +1,14 @@
 # hive-ui
 
-## Project setup
-```
-npm install
-```
+Vue project for the od2/Hive frontend.
 
-### Compiles and hot-reloads for development
-```
-npm run serve
-```
+Work in progress.
 
-### Compiles and minifies for production
-```
-npm run build
-```
+## Quickstart
 
-### Lints and fixes files
-```
-npm run lint
-```
+- `npm install`: Project Setup
+- `npm run serve`: Compiles and hot-reloads for development
+- `npm run build`: Compiles and minifies for production
+- `npm run lint`: Lints and fixes files
 
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+Config see [Vue Reference](https://cli.vuejs.org/config/).
