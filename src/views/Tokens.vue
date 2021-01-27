@@ -68,6 +68,9 @@ td {
 
 <script>
 export default {
-  name: "Tokens"
+  name: "Tokens",
+  mounted() {
+    this.$store.dispatch("listWorkerTokens");
+  }
 };
 </script>
