@@ -1,5 +1,10 @@
 <template>
-  <h1 class="title">Overview</h1>
+  <h1 class="title is-1">Overview</h1>
+  <ul>
+    <li>
+      <router-link to="/tokens">Manage Tokens</router-link>
+    </li>
+  </ul>
 </template>
 
 <script>
