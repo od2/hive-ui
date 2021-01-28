@@ -168,9 +168,9 @@ import {
   RevokeWorkerTokenRequest,
   RevokeAllWorkerTokensRequest
 } from "@od2/hive-web-api/web/worker_tokens_pb";
-import { ManagementPromiseClient } from "@od2/hive-web-api/web/worker_tokens_grpc_web_pb";
+import { WorkerTokensPromiseClient } from "@od2/hive-web-api/web/worker_tokens_grpc_web_pb";
 
-const managementClient = new ManagementPromiseClient("/grpc");
+const tokensClient = new WorkerTokensPromiseClient("/grpc");
 
 export default {
   name: "Tokens",
@@ -191,7 +191,7 @@ export default {
       }
       const request = new CreateWorkerTokenRequest();
       request.setDescription(this.createDescription);
-      const response = await managementClient.createWorkerToken(request);
+      const response = await tokensClient.createWorkerToken(request);
       this.tokens.push(response.getToken());
       this.createDescription = "";
       this.createdToken = response.getKey();
@@ -201,13 +201,13 @@ export default {
     revoke: async function(id) {
       const request = new RevokeWorkerTokenRequest();
       request.setTokenId(id);
-      await managementClient.revokeWorkerToken(request);
+      await tokensClient.revokeWorkerToken(request);
       this.tokens = this.tokens.filter(token => token.getId() != id);
     },
     revokeAll: async function() {
       // TODO This is too aggressive! We should double-check with the user.
       const request = new RevokeAllWorkerTokensRequest();
-      await managementClient.revokeAllWorkerTokens(request);
+      await tokensClient.revokeAllWorkerTokens(request);
       this.tokens = [];
       this.createdToken = "";
       this.createdTokenCopied = false;
@@ -229,7 +229,7 @@ export default {
   },
   async mounted() {
     const request = new ListWorkerTokensRequest();
-    const response = await managementClient.listWorkerTokens(request);
+    const response = await tokensClient.listWorkerTokens(request);
     this.tokens = response.getTokensList();
   }
 };
