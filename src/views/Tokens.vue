@@ -82,7 +82,11 @@
       <strong>Your Token:&ensp;</strong>
       <samp>{{ createdToken }}</samp>
       &ensp;
-      <button id="copy-token-button" class="button is-small">
+      <button
+        id="copy-token-button"
+        class="button is-small"
+        v-on:click="copyNewToken"
+      >
         <span class="icon is-small has-text-primary">
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
             <path d="M0 0h24v24H0z" fill="none" />
@@ -96,6 +100,7 @@
       <p class="mt-2">
         Be sure to save this token. You won't be able to see it again.
       </p>
+      <p class="mt-2" v-if="createdTokenCopied"><em>Copied!</em></p>
     </div>
   </div>
 </template>
@@ -162,7 +167,8 @@ export default {
       tokens: [],
       createDescription: "",
       missingDescription: false,
-      createdToken: ""
+      createdToken: "",
+      createdTokenCopied: false
     };
   },
   methods: {
@@ -177,6 +183,7 @@ export default {
       this.tokens.push(response.getToken());
       this.createDescription = "";
       this.createdToken = response.getKey();
+      this.createdTokenCopied = false;
       this.$nextTick(() => this.$refs.createdTokenNotification.focus());
     },
     revoke: async function(id) {
@@ -191,6 +198,11 @@ export default {
       await managementClient.revokeAllWorkerTokens(request);
       this.tokens = [];
       this.createdToken = "";
+      this.createdTokenCopied = false;
+    },
+    copyNewToken: async function() {
+      await navigator.clipboard.writeText(this.createdToken);
+      this.createdTokenCopied = true;
     }
   },
   async mounted() {
