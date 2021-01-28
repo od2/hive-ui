@@ -167,8 +167,8 @@ import {
   ListWorkerTokensRequest,
   RevokeWorkerTokenRequest,
   RevokeAllWorkerTokensRequest
-} from "@od2/hive-api/management_pb";
-import { ManagementPromiseClient } from "@od2/hive-api/management_grpc_web_pb";
+} from "@od2/hive-web-api/worker_tokens_pb";
+import { ManagementPromiseClient } from "@od2/hive-web-api/worker_tokens_grpc_web_pb";
 
 const managementClient = new ManagementPromiseClient("/grpc");
 
