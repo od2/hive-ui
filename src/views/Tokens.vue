@@ -10,10 +10,10 @@
   <table v-else class="table" id="tokens-list">
     <thead>
       <tr>
-        <th>Description</th>
-        <th>Token</th>
-        <th>Created</th>
-        <th>Last used</th>
+        <th class="od2-col-expand">Description</th>
+        <th class="od2-col-shrink">Token</th>
+        <th class="od2-col-shrink">Created</th>
+        <th class="od2-col-shrink">Last used</th>
         <th>
           <button
             v-on:click="revokeAll"
@@ -30,8 +30,16 @@
         <td class="od2-col-shrink">
           <samp>&hellip;{{ token.getTokenBit() }}</samp>
         </td>
-        <td class="od2-col-shrink">2020-11-11 11:11</td>
-        <td class="od2-col-shrink">2021-01-23 03:50</td>
+        <td class="od2-col-shrink od2-col-date">
+          {{ formatDate(token.getCreatedAt().toDate()) }}
+        </td>
+        <td class="od2-col-shrink od2-col-date">
+          {{
+            token.getLastUsedAt().getSeconds() != 0
+              ? formatDate(token.getLastUsedAt().toDate())
+              : "&mdash;"
+          }}
+        </td>
         <td class="od2-col-shrink">
           <button
             v-on:click="revoke(token.getId())"
@@ -140,6 +148,10 @@
   width: 99%;
 }
 
+.od2-col-date {
+  min-width: 9.4em;
+}
+
 #tokens-list {
   max-width: 42rem;
 }
@@ -203,6 +215,16 @@ export default {
     copyNewToken: async function() {
       await navigator.clipboard.writeText(this.createdToken);
       this.createdTokenCopied = true;
+    },
+    formatDate: function(d) {
+      const pad = n => (n < 10 ? "0" + n : n);
+      return (
+        `${d.getFullYear()}-` +
+        `${pad(d.getMonth() + 1)}-` +
+        `${pad(d.getDate())} ` +
+        `${pad(d.getHours())}:` +
+        `${pad(d.getMinutes())}`
+      );
     }
   },
   async mounted() {
